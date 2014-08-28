@@ -12,10 +12,14 @@ class MyVerySecureTwitterClone(object):
     output = '''
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script>
+function clean(str) {
+    return str.replace(new RegExp('</?script>', 'g'), '');
+}
+
 function sendMessage() {
     $.ajax('/post', {
         data: {
-            'message': $('textarea[name="message"]').val()
+            'message': clean($('textarea[name="message"]').val())
         },
         success: function() {
             location.reload();
