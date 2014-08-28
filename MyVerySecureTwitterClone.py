@@ -33,7 +33,10 @@ function sendMessage() {
 '''
 
     for message in self.messages:
-      output += '<p>{0} -- <a href="/profile?name={1}">{1}</a></p>'.format(message['text'], message['name'])
+      output += '<p>{0} -- <a href="/profile?name={1}">{1}</a></p>'.format(
+          self.clean(message['text']),
+          self.clean(message['name'])
+      )
       output += '<hr />'
 
     output += '''
@@ -59,7 +62,6 @@ function sendMessage() {
     return '''This is {0}'s profile<br />
 Click <a href="/">here</a> to return'''.format(name)
 
-
   def loadMessages(self):
     self.messages = []
     if os.path.exists('messages.json'):
@@ -70,6 +72,10 @@ Click <a href="/">here</a> to return'''.format(name)
     with open('messages.json', 'w') as fout:
       fout.write(json.dumps(self.messages))
 
+  def clean(self, str):
+    return (str.replace('<', '&lt;')
+               .replace('"', '&quot;')
+               .replace("'", '&#39;'));
 
 cherrypy.config.update({
   'server.socket_host': '127.0.0.1',
