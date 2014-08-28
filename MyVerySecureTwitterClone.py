@@ -13,7 +13,7 @@ class MyVerySecureTwitterClone(object):
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script>
 function clean(str) {
-    return str.replace(new RegExp('</?script>', 'g'), '');
+    return str.replace(new RegExp('<[^>]*>', 'g'), '');
 }
 
 function sendMessage() {
