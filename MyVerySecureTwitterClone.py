@@ -9,14 +9,28 @@ class MyVerySecureTwitterClone(object):
   def index(self):
     self.loadMessages()
 
-    output = ''
+    output = '''
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+function sendMessage() {
+    $.ajax('/post', {
+        data: {
+            'message': $('textarea[name="message"]').val()
+        },
+        success: function() {
+            location.reload();
+        }
+    });
+}
+</script>
+'''
 
     for message in self.messages:
       output += '<p>{0}</p>'.format(message['text'])
       output += '<hr />'
 
     output += '''
-<form action="/post">
+<form action="javascript:sendMessage()">
   <textarea name="message" rows="4" cols="50"></textarea><br />
   <button type="submit">Send!</button>
 </form>
